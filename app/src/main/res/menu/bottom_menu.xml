@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+            android:id="@+id/action_favorites"
+            android:enabled="true"
+            android:icon="@android:drawable/alert_dark_frame"
+            android:title="Page1"
+            app:showAsAction="ifRoom"/>
+    <item
+            android:id="@+id/action_schedules"
+            android:enabled="true"
+            android:title="Page2"
+            app:showAsAction="ifRoom"/>
+    <item
+            android:id="@+id/action_music"
+            android:enabled="true"
+            android:icon="@android:drawable/alert_dark_frame"
+            android:title="Page3"
+            app:showAsAction="ifRoom"/>
+</menu>
