@@ -9,8 +9,8 @@ class CurvedBottomNavigationView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : BottomNavigationView(context, attrs, defStyleAttr) {
 
-    private val mPath: Path?
-    private val mPaint: Paint?
+    private val mPath: Path
+    private val mPaint: Paint
 
     /** the radius represent the radius of the fab button  */
     private var radius: Int = 0
@@ -32,7 +32,7 @@ class CurvedBottomNavigationView @JvmOverloads constructor(
 
     init {
         // radius of fab button
-        radius = 256/2
+        radius = 256 / 2
         mPath = Path()
         mPaint = Paint()
         with(mPaint) {
@@ -42,8 +42,8 @@ class CurvedBottomNavigationView @JvmOverloads constructor(
         setBackgroundColor(Color.TRANSPARENT)
     }
 
-    override fun onDraw(canvas: Canvas?) {
-        super.onDraw(canvas)
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
         // get width and height of navigation bar
         mNavigationBarWidth = width
         mNavigationBarHeight = height
@@ -51,8 +51,6 @@ class CurvedBottomNavigationView @JvmOverloads constructor(
         mFirstCurveStartPoint.set(mNavigationBarWidth / 2 - radius * 2 - radius / 3, 0)
         // the coordinates (x,y) of the end point after curve
         mFirstCurveEndPoint.set(mNavigationBarWidth / 2, radius + radius / 4)
-
-
         // same thing for the second curve
         mSecondCurveStartPoint = mFirstCurveEndPoint
         mSecondCurveEndPoint.set(mNavigationBarWidth / 2 + radius * 2 + radius / 3, 0)
@@ -76,32 +74,32 @@ class CurvedBottomNavigationView @JvmOverloads constructor(
             mSecondCurveEndPoint.x - (radius + radius / 4),
             mSecondCurveEndPoint.y
         )
-        mPath?.let {
-            with(mPath) {
-                reset()
-                moveTo(0f, 0f)
-                lineTo(mFirstCurveStartPoint.x.toFloat(), mFirstCurveStartPoint.y.toFloat())
+    }
 
-                cubicTo(
-                    mFirstCurveControlPoint1.x.toFloat(), mFirstCurveControlPoint1.y.toFloat(),
-                    mFirstCurveControlPoint2.x.toFloat(), mFirstCurveControlPoint2.y.toFloat(),
-                    mFirstCurveEndPoint.x.toFloat(), mFirstCurveEndPoint.y.toFloat()
-                )
+    override fun onDraw(canvas: Canvas?) {
+        super.onDraw(canvas)
+        mPath.apply {
+            reset()
+            moveTo(0f, 0f)
+            lineTo(mFirstCurveStartPoint.x.toFloat(), mFirstCurveStartPoint.y.toFloat())
 
-                cubicTo(
-                    mSecondCurveControlPoint1.x.toFloat(), mSecondCurveControlPoint1.y.toFloat(),
-                    mSecondCurveControlPoint2.x.toFloat(), mSecondCurveControlPoint2.y.toFloat(),
-                    mSecondCurveEndPoint.x.toFloat(), mSecondCurveEndPoint.y.toFloat()
-                )
+            cubicTo(
+                mFirstCurveControlPoint1.x.toFloat(), mFirstCurveControlPoint1.y.toFloat(),
+                mFirstCurveControlPoint2.x.toFloat(), mFirstCurveControlPoint2.y.toFloat(),
+                mFirstCurveEndPoint.x.toFloat(), mFirstCurveEndPoint.y.toFloat()
+            )
 
-                lineTo(mNavigationBarWidth.toFloat(), 0f)
-                lineTo(mNavigationBarWidth.toFloat(), mNavigationBarHeight.toFloat())
-                lineTo(0f, mNavigationBarHeight.toFloat())
-                close()
-                canvas?.drawPath(mPath, mPaint)
-            }
+            cubicTo(
+                mSecondCurveControlPoint1.x.toFloat(), mSecondCurveControlPoint1.y.toFloat(),
+                mSecondCurveControlPoint2.x.toFloat(), mSecondCurveControlPoint2.y.toFloat(),
+                mSecondCurveEndPoint.x.toFloat(), mSecondCurveEndPoint.y.toFloat()
+            )
+
+            lineTo(mNavigationBarWidth.toFloat(), 0f)
+            lineTo(mNavigationBarWidth.toFloat(), mNavigationBarHeight.toFloat())
+            lineTo(0f, mNavigationBarHeight.toFloat())
+            close()
+            canvas?.drawPath(mPath, mPaint)
         }
-
-
     }
 }
