@@ -23,6 +23,8 @@ public class CurvedBottomNavigationView extends BottomNavigationView {
     private Point mSecondCurveEndPoint = new Point();
     private Point mSecondCurveControlPoint1 = new Point();
     private Point mSecondCurveControlPoint2 = new Point();
+    private int mNavigationBarWidth;
+    private int mNavigationBarHeight;
 
     public CurvedBottomNavigationView(Context context) {
         super(context);
@@ -54,18 +56,16 @@ public class CurvedBottomNavigationView extends BottomNavigationView {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
         // get width and height of navigation bar
         // Navigation bar bounds (width & height)
-        int mNavigationBarWidth = getWidth();
-        int mNavigationBarHeight = getHeight();
+         mNavigationBarWidth = getWidth();
+         mNavigationBarHeight = getHeight();
         // the coordinates (x,y) of the start point before curve
         mFirstCurveStartPoint.set((mNavigationBarWidth / 2) - (CURVE_CIRCLE_RADIUS * 2) - (CURVE_CIRCLE_RADIUS / 3), 0);
         // the coordinates (x,y) of the end point after curve
         mFirstCurveEndPoint.set(mNavigationBarWidth / 2, CURVE_CIRCLE_RADIUS + (CURVE_CIRCLE_RADIUS / 4));
-
-
         // same thing for the second curve
         mSecondCurveStartPoint = mFirstCurveEndPoint;
         mSecondCurveEndPoint.set((mNavigationBarWidth / 2) + (CURVE_CIRCLE_RADIUS * 2) + (CURVE_CIRCLE_RADIUS / 3), 0);
@@ -77,7 +77,11 @@ public class CurvedBottomNavigationView extends BottomNavigationView {
 
         mSecondCurveControlPoint1.set(mSecondCurveStartPoint.x + (CURVE_CIRCLE_RADIUS * 2) - CURVE_CIRCLE_RADIUS, mSecondCurveStartPoint.y);
         mSecondCurveControlPoint2.set(mSecondCurveEndPoint.x - (CURVE_CIRCLE_RADIUS + (CURVE_CIRCLE_RADIUS / 4)), mSecondCurveEndPoint.y);
+    }
 
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
         mPath.reset();
         mPath.moveTo(0, 0);
         mPath.lineTo(mFirstCurveStartPoint.x, mFirstCurveStartPoint.y);
