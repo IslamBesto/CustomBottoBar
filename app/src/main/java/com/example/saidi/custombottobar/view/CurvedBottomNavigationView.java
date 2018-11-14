@@ -77,11 +77,7 @@ public class CurvedBottomNavigationView extends BottomNavigationView {
 
         mSecondCurveControlPoint1.set(mSecondCurveStartPoint.x + (CURVE_CIRCLE_RADIUS * 2) - CURVE_CIRCLE_RADIUS, mSecondCurveStartPoint.y);
         mSecondCurveControlPoint2.set(mSecondCurveEndPoint.x - (CURVE_CIRCLE_RADIUS + (CURVE_CIRCLE_RADIUS / 4)), mSecondCurveEndPoint.y);
-    }
 
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
         mPath.reset();
         mPath.moveTo(0, 0);
         mPath.lineTo(mFirstCurveStartPoint.x, mFirstCurveStartPoint.y);
@@ -98,7 +94,11 @@ public class CurvedBottomNavigationView extends BottomNavigationView {
         mPath.lineTo(mNavigationBarWidth, mNavigationBarHeight);
         mPath.lineTo(0, mNavigationBarHeight);
         mPath.close();
+    }
 
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
         canvas.drawPath(mPath, mPaint);
     }
 }
