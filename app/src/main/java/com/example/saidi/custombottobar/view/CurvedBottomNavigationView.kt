@@ -74,10 +74,7 @@ class CurvedBottomNavigationView @JvmOverloads constructor(
             mSecondCurveEndPoint.x - (radius + radius / 4),
             mSecondCurveEndPoint.y
         )
-    }
 
-    override fun onDraw(canvas: Canvas?) {
-        super.onDraw(canvas)
         mPath.apply {
             reset()
             moveTo(0f, 0f)
@@ -99,7 +96,11 @@ class CurvedBottomNavigationView @JvmOverloads constructor(
             lineTo(mNavigationBarWidth.toFloat(), mNavigationBarHeight.toFloat())
             lineTo(0f, mNavigationBarHeight.toFloat())
             close()
-            canvas?.drawPath(mPath, mPaint)
         }
+    }
+
+    override fun onDraw(canvas: Canvas?) {
+        super.onDraw(canvas)
+        canvas?.drawPath(mPath, mPaint)
     }
 }
